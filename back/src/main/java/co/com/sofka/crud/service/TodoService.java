@@ -32,10 +32,10 @@ public class TodoService {
 
         ListTodo newListTodo = listTodoRepository.save(listTodoById);
 
-        Integer lastTodo = (newListTodo.getListTodo().size() - 1);
+        int lastIndexTodo = (newListTodo.getListTodo().size() - 1);
 
         Todo newTodo = newListTodo.getListTodo()
-                .get(lastTodo);
+                .get(lastIndexTodo);
 
         TodoDTO toTodoDTO = converter.fromEntity(newTodo);
         toTodoDTO.setListTodoId(newListTodo.getId());
@@ -58,19 +58,11 @@ public class TodoService {
                 }).collect(Collectors.toList());
         ListTodo listTodo = listTodoRepository.save(listToDoToUpdate);
 
-        Todo todoUpdated = findTodoUpdated(listTodo,todoDTO.getId());
-
-        return todoConverter.fromEntity(todoUpdated);
+        Todo todoUpdated = getTodoById(listTodo,todoDTO.getId());
+        TodoDTO toToDoDTO = todoConverter.fromEntity(todoUpdated);
+        toToDoDTO.setListTodoId(id);
+        return toToDoDTO;
     }
-
-    private Todo findTodoUpdated(ListTodo listTodo,Long idTodo){
-        return listTodo.getListTodo()
-                .stream()
-                .filter(todo -> todo.getId().equals(idTodo))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("todo updated not found"));
-    }
-
 
     public void delete(Long idList,Long idTodo){
         ListTodo listTodo = listTodoService.getListTodoById(idList);
@@ -88,12 +80,14 @@ public class TodoService {
         return todoDTO;
     }
 
+
+
     private Todo getTodoById(ListTodo listTodo,Long idTodo){
         return listTodo.getListTodo()
                 .stream()
                 .filter(t -> t.getId().equals(idTodo))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Todo id not found"));
+                .orElseThrow(() -> new RuntimeException("Todo not found"));
     }
 
 }
