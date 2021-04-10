@@ -1,7 +1,6 @@
 package co.com.sofka.crud.controller;
 
 import co.com.sofka.crud.dto.ListTodoDTO;
-import co.com.sofka.crud.dto.TodoDTO;
 import co.com.sofka.crud.service.ListTodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,12 +22,14 @@ public class ListTodoController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteListTodo(@PathVariable Long id){
-        if(service.delete(id)){
+        try {
+            service.delete(id);
             return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-
 
 
 }
