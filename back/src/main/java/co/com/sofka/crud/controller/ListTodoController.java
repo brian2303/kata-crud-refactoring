@@ -4,6 +4,8 @@ import co.com.sofka.crud.dto.ListTodoDTO;
 import co.com.sofka.crud.dto.TodoDTO;
 import co.com.sofka.crud.service.ListTodoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,16 +17,17 @@ public class ListTodoController {
     ListTodoService service;
 
     @PostMapping
-    public ListTodoDTO save(@RequestBody ListTodoDTO listTodoDTO){
-        return service.save(listTodoDTO);
+    public ResponseEntity<ListTodoDTO> save(@RequestBody ListTodoDTO listTodoDTO){
+        return new ResponseEntity(service.save(listTodoDTO),HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/todo")
-    public TodoDTO save(@RequestBody TodoDTO todoDTO){
-        return service.save(todoDTO);
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteListTodo(@PathVariable Long id){
+        if(service.delete(id)){
+            return new ResponseEntity(HttpStatus.OK);
+        }
+        return new ResponseEntity(HttpStatus.NOT_FOUND);
     }
-
-
 
 
 

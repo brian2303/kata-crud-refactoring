@@ -18,8 +18,6 @@ public class ListTodoService {
     @Autowired
     ListTodoRepository repository;
 
-    @Autowired
-    TodoRepository todoRepository;
 
     public ListTodoDTO save(ListTodoDTO listTodoDTO){
         ListToDoConverter converter = new ListToDoConverter();
@@ -27,26 +25,14 @@ public class ListTodoService {
         return converter.fromEntity(repository.save(listTodo));
     }
 
-    public TodoDTO save(TodoDTO todoDTO){
-        TodoConverter converter = new TodoConverter();
-        Todo todo = converter.fromDTO(todoDTO);
 
-        ListTodo listTodoById = repository.findById(todoDTO.getListTodoId())
-                .orElseThrow(() -> new RuntimeException("ID NOT FOUND"));
-        listTodoById.getListTodo().add(todo);
 
-        ListTodo newListTodo = repository.save(listTodoById);
 
-        Integer lastTodo = (newListTodo.getListTodo().size() - 1);
-
-        Todo newTodo = newListTodo.getListTodo()
-                .get(lastTodo);
-
-        TodoDTO toTodoDTO = converter.fromEntity(newTodo);
-        toTodoDTO.setListTodoId(newListTodo.getId());
-
-        return toTodoDTO;
+    public Boolean delete(Long id) {
+        return repository.findById(id)
+                .map(listTodo -> {
+                    repository.delete(listTodo);
+                    return true;
+                }).orElse(false);
     }
-
-
 }
