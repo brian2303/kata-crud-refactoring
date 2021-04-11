@@ -1,17 +1,13 @@
 import React, { useContext, useEffect } from "react";
 import { Store } from "../../store/store";
 import ListSubTodo from "../todo/ListSubToDo";
-
-
-
-
-const HOST_API = "http://localhost:8080/api/v1";
+import TodoForm from "../todo/TodoForm";
+import HOST_API from '../../constants';
 
 const ListToDo = () => {
     const { dispatch, state } = useContext(Store);
 
     useEffect(() => {
-        console.log('EJECUTADO');
         fetch(HOST_API + "/list-todo")
             .then(response => response.json())
             .then((list) => {
@@ -58,7 +54,7 @@ const ListToDo = () => {
         <table >
             <thead>
                 <tr>
-                    <td>Tarea</td>
+                    <td>Lista de tareas</td>
                 </tr>
             </thead>
             <tbody>
@@ -70,7 +66,7 @@ const ListToDo = () => {
                                     {todo.name.toUpperCase()}
                                     <button onClick={() => onDelete(todo.id)}>Eliminar</button>
                                 </legend>
-                                {/* <ToDoForm listId={element.id} todo={todo} /> */}
+                                <TodoForm listId={todo.id} todo={todo} />
                                 <ListSubTodo listSubTodo={todo.listTodo} />
                             </fieldset>
                         </td>

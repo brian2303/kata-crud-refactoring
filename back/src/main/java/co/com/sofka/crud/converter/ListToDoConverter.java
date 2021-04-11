@@ -20,4 +20,5 @@ public class ListToDoConverter implements Converter<ListTodo, ListTodoDTO>{
         listTodoDTO.setId(entity.getId());
         return listTodoDTO;
     }
+
 }

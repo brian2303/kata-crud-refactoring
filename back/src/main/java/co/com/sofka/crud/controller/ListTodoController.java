@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("list-todo")
@@ -29,6 +31,11 @@ public class ListTodoController {
             System.out.println(e.getMessage());
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping
+    public ResponseEntity<Iterable<ListTodoDTO>> findAllListToDoDTO(){
+        return new ResponseEntity(service.getAll(),HttpStatus.OK);
     }
 
 
