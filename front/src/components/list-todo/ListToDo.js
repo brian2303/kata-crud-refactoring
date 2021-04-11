@@ -25,7 +25,6 @@ const ListToDo = () => {
     };
 
     const onEdit = (todo) => {
-        // dispatch({ type: "edit-item", item: todo })
     };
 
     const onChange = (event, todo) => {

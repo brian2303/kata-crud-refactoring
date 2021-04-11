@@ -33,7 +33,7 @@ const ListToDoForm = () => {
     })
       .then(response => response.json())
       .then((todo) => {
-        dispatch({ type: "add-item", payload: todo });
+        dispatch({ type: "add-item", payload: { ...todo, listTodo: [] } });
         setName('');
         formRef.current.reset();
       });

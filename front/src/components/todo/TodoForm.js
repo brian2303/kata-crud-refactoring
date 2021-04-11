@@ -5,8 +5,8 @@ import { Store } from '../../store/store';
 const TodoForm = ({ listId }) => {
 
     const { dispatch, state } = useContext(Store);
-
     const [name, setName] = useState('');
+    const formRef = useRef(null)
 
     const handleAddSubTodo = (e) => {
         e.preventDefault()
@@ -26,13 +26,14 @@ const TodoForm = ({ listId }) => {
             }
         })
             .then(response => response.json())
-            .then(todo => console.log(todo))
+            .then(todo => dispatch({ type: "add-subtodo", payload: todo }))
+        formRef.current.reset()
     }
 
     const handleChangeInput = (e) => setName(e.target.value)
 
     return (
-        <form onSubmit={handleAddSubTodo}>
+        <form ref={formRef} onSubmit={handleAddSubTodo}>
             <input
                 type="text"
                 onChange={handleChangeInput}
