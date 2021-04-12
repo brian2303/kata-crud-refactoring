@@ -44,9 +44,9 @@ public class TodoService {
     }
 
 
-    public TodoDTO update(Long id,TodoDTO todoDTO){
+    public TodoDTO update(TodoDTO todoDTO){
         TodoConverter todoConverter = new TodoConverter();
-        ListTodo listToDoToUpdate = listTodoService.getListTodoById(id);
+        ListTodo listToDoToUpdate = listTodoService.getListTodoById(todoDTO.getListTodoId());
         listToDoToUpdate.getListTodo()
                 .stream()
                 .map(todoToUpdate -> {
@@ -60,7 +60,7 @@ public class TodoService {
 
         Todo todoUpdated = getTodoById(listTodo,todoDTO.getId());
         TodoDTO toToDoDTO = todoConverter.fromEntity(todoUpdated);
-        toToDoDTO.setListTodoId(id);
+        toToDoDTO.setListTodoId(todoDTO.getListTodoId());
         return toToDoDTO;
     }
 
